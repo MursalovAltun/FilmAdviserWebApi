@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{07A50D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.WebApiCore", "Common.WebApiCore\Common.WebApiCore.csproj", "{305C1849-1847-4E6E-A740-1543260FBC9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Services.Infrastructure", "Common.Services.Infrastructure\Common.Services.Infrastructure.csproj", "{93280614-3A7C-412B-BD28-5A0AD56993EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +19,17 @@ Global
 		{305C1849-1847-4E6E-A740-1543260FBC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{305C1849-1847-4E6E-A740-1543260FBC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{305C1849-1847-4E6E-A740-1543260FBC9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93280614-3A7C-412B-BD28-5A0AD56993EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93280614-3A7C-412B-BD28-5A0AD56993EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93280614-3A7C-412B-BD28-5A0AD56993EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93280614-3A7C-412B-BD28-5A0AD56993EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{305C1849-1847-4E6E-A740-1543260FBC9E} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
+		{93280614-3A7C-412B-BD28-5A0AD56993EA} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24BAAD55-DBC3-47BE-A063-DDB2E54846BB}

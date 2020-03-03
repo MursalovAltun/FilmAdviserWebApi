@@ -1,3 +1,5 @@
+using System.Reflection;
+using AutoMapper;
 using Common.WebApiCore.Middlewares;
 using Common.WebApiCore.Setup;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +20,6 @@ namespace Common.WebApiCore
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers(options =>
@@ -27,9 +28,9 @@ namespace Common.WebApiCore
             });
             services.ConfigureSwagger();
             services.AddCors();
+            services.AddAutoMapper(Assembly.Load("Common.Services.Infrastructure"));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
