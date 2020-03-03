@@ -25,6 +25,7 @@ namespace Common.WebApiCore
             {
                 options.UseCentralRoutePrefix(new RouteAttribute("api"));
             });
+            services.ConfigureSwagger();
             services.AddCors();
         }
 
@@ -35,6 +36,8 @@ namespace Common.WebApiCore
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseConfiguredSwagger();
 
             app.UseCors("CorsPolicy");
 
