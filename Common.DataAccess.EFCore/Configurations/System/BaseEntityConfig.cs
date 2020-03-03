@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Common.DataAccess.EFCore.Configurations
+namespace Common.DataAccess.EFCore.Configurations.System
 {
     public abstract class BaseEntityConfig<TType> : IEntityTypeConfiguration<TType>
         where TType : BaseEntity

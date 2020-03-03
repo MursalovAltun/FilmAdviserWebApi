@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Common.Services.Infrastructure\Common.Services.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

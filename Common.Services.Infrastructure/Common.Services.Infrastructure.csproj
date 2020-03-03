@@ -8,4 +8,9 @@
     <Folder Include="MappingProfiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Common.DTO\Common.DTO.csproj" />
+    <ProjectReference Include="..\Common.Entities\Common.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

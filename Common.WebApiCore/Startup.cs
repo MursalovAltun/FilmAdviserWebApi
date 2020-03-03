@@ -1,5 +1,6 @@
 using System.Reflection;
 using AutoMapper;
+using Common.Services.Infrastructure;
 using Common.WebApiCore.Middlewares;
 using Common.WebApiCore.Setup;
 using Microsoft.AspNetCore.Builder;
@@ -20,19 +21,38 @@ namespace Common.WebApiCore
 
         public IConfiguration Configuration { get; }
 
+        protected void ConfigureDependencies(IServiceCollection services)
+        {
+            var connectionString = Configuration.GetConnectionString("Default");
+            DependenciesConfig.ConfigureDependencies(services, this.Configuration, connectionString);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-            {
-                options.UseCentralRoutePrefix(new RouteAttribute("api"));
-            });
+            services.ConfigureIdentity();
+            services.ConfigureAuth(this.Configuration);
+            ConfigureDependencies(services);
             services.ConfigureSwagger();
             services.AddCors();
             services.AddAutoMapper(Assembly.Load("Common.Services.Infrastructure"));
+            services.AddControllers(options =>
+            {
+                options.UseCentralRoutePrefix(new RouteAttribute("api"));
+            })
+            .AddNewtonsoftJson();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataBaseInitializer dataBaseInitializer)
         {
+            if (dataBaseInitializer != null)
+            {
+                dataBaseInitializer.Initialize();
+            }
+            else
+            {
+                // TODO: add logging
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
