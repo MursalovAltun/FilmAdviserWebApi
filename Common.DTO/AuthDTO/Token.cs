@@ -2,10 +2,19 @@
 {
     public class Token
     {
-        public double ExpiresIn;
+        /// <summary>
+        /// Describes when the AccessToken will be expired
+        /// </summary>
+        public double ExpiresIn { get; set; }
 
-        public string AccessToken;
+        /// <summary>
+        /// The token that gives access to the protected endpoints
+        /// </summary>
+        public string AccessToken { get; set; }
 
-        public string RefreshToken;
+        /// <summary>
+        /// The token that can be used to refresh the AccessToken
+        /// </summary>
+        public string RefreshToken { get; set; }
     }
 }

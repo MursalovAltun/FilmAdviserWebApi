@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +16,19 @@ namespace Common.WebApiCore.Setup
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Film Adviser WebAPI",
-                    Version = "v1"
+                    Version = "v1",
+                    Contact = new OpenApiContact()
+                    {
+                        Email = "altun.mursalov00@gmail.com",
+                        Name = "Altun Mursalov",
+                        Url = new Uri("https://t.me/altun_mursalov")
+                    },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "Apache-2.0",
+                        Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0")
+                    },
+                    Description = "This is the server side application for Film Adviser project."
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -40,9 +50,10 @@ namespace Common.WebApiCore.Setup
                         new string[] { }
                     }
                 });
+                
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
         }
 
