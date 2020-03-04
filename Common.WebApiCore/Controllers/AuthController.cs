@@ -24,15 +24,19 @@ namespace Common.WebApiCore.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO loginDto)
         {
-            var result = await authService.Login(loginDto);
+            if (ModelState.IsValid)
+            {
+                var result = await authService.Login(loginDto);
 
-            if (result.Succeeded)
-            {
-                return Ok(new { token = result.Data });
-            }
-            if (result.IsModelValid)
-            {
-                return Unauthorized();
+                if (result.Succeeded)
+                {
+                    return Ok(new { token = result.Data });
+                }
+
+                if (result.IsModelValid)
+                {
+                    return Unauthorized();
+                }
             }
 
             return BadRequest();
@@ -43,19 +47,22 @@ namespace Common.WebApiCore.Controllers
         [Route("sign-up")]
         public async Task<IActionResult> SignUp(SignUpDTO signUpDto)
         {
-            var user = await _userService.GetByEmail(signUpDto.Email);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                return BadRequest("A user with such an email already exists.");
+                var user = await _userService.GetByEmail(signUpDto.Email);
+                if (user != null)
+                {
+                    return BadRequest("A user with such an email already exists.");
+                }
+
+                var result = await authService.SignUp(signUpDto);
+
+                if (result.Succeeded)
+                    return Ok(new { token = result.Data });
+
+                if (result.IsModelValid)
+                    return Unauthorized();
             }
-
-            var result = await authService.SignUp(signUpDto);
-
-            if (result.Succeeded)
-                return Ok(new { token = result.Data });
-
-            if (result.IsModelValid)
-                return Unauthorized();
 
             return BadRequest();
         }

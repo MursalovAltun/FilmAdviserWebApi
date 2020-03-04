@@ -3,6 +3,7 @@ using AutoMapper;
 using Common.Services.Infrastructure;
 using Common.WebApiCore.Middlewares;
 using Common.WebApiCore.Setup;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,12 @@ namespace Common.WebApiCore
             services.AddControllers(options =>
             {
                 options.UseCentralRoutePrefix(new RouteAttribute("api"));
+            })
+            .AddFluentValidation(options =>
+            {
+                options.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                options.LocalizationEnabled = false;
+                options.RegisterValidatorsFromAssembly(Assembly.Load("Common.DTO"));
             })
             .AddNewtonsoftJson();
         }
