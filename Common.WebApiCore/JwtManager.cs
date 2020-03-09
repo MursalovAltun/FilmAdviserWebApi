@@ -24,9 +24,9 @@ namespace Common.WebApiCore
         {
             var token = new Token
             {
-                ExpiresIn = jwtOptions.AccessValidFor.TotalMilliseconds,
-                AccessToken = CreateToken(user, jwtOptions.AccessExpiration, jwtOptions.AccessSigningCredentials),
-                RefreshToken = CreateToken(user, jwtOptions.RefreshExpiration, jwtOptions.RefreshSigningCredentials)
+                Expires_in = jwtOptions.AccessValidFor.TotalMilliseconds,
+                Access_token = CreateToken(user, jwtOptions.AccessExpiration, jwtOptions.AccessSigningCredentials),
+                Refresh_token = CreateToken(user, jwtOptions.RefreshExpiration, jwtOptions.RefreshSigningCredentials)
             };
 
             return token;

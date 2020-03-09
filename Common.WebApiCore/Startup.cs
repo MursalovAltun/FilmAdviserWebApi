@@ -34,7 +34,7 @@ namespace Common.WebApiCore
             services.ConfigureAuth(this.Configuration);
             ConfigureDependencies(services);
             services.ConfigureSwagger();
-            services.AddCors();
+            services.ConfigureCors();
             services.AddAutoMapper(Assembly.Load("Common.Services.Infrastructure"));
             services.AddControllers(options =>
             {
@@ -74,6 +74,8 @@ namespace Common.WebApiCore
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

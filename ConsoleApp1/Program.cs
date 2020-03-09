@@ -10,12 +10,12 @@ namespace ConsoleApp1
         {
             var token = new Token
             {
-                RefreshToken = "awdawdawdawd",
-                ExpiresIn = 21284124,
-                AccessToken = "aw89d718f12d21=d12-0h8 d1298"
+                Refresh_token = "awdawdawdawd",
+                Expires_in = 21284124,
+                Access_token = "aw89d718f12d21=d12-0h8 d1298"
             };
             var json = JsonSerializer.Serialize(new { token = token });
-            Console.WriteLine(json);
+            Console.WriteLine(Guid.NewGuid());
         }
     }
 }

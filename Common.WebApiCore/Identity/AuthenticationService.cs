@@ -141,7 +141,7 @@ namespace Common.WebApiCore.Identity
 
         public async Task<AuthResult<Token>> RefreshToken(RefreshTokenDTO refreshTokenDto)
         {
-            var refreshToken = refreshTokenDto?.Token?.RefreshToken;
+            var refreshToken = refreshTokenDto?.Token?.Refresh_token;
             if (string.IsNullOrEmpty(refreshToken))
                 return AuthResult<Token>.UnvalidatedResult;
 

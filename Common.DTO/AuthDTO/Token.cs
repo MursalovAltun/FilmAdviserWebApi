@@ -5,16 +5,16 @@
         /// <summary>
         /// Describes when the AccessToken will be expired
         /// </summary>
-        public double ExpiresIn { get; set; }
+        public double Expires_in { get; set; }
 
         /// <summary>
         /// The token that gives access to the protected endpoints
         /// </summary>
-        public string AccessToken { get; set; }
+        public string Access_token { get; set; }
 
         /// <summary>
         /// The token that can be used to refresh the AccessToken
         /// </summary>
-        public string RefreshToken { get; set; }
+        public string Refresh_token { get; set; }
     }
 }
