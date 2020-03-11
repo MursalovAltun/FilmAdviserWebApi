@@ -19,7 +19,7 @@ namespace Common.DataAccess.EFCore.Migrations
 
             modelBuilder.Entity("Common.Entities.Role", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -42,7 +42,7 @@ namespace Common.DataAccess.EFCore.Migrations
 
             modelBuilder.Entity("Common.Entities.Settings", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDate")
@@ -65,7 +65,7 @@ namespace Common.DataAccess.EFCore.Migrations
 
             modelBuilder.Entity("Common.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -128,7 +128,7 @@ namespace Common.DataAccess.EFCore.Migrations
 
             modelBuilder.Entity("Common.Entities.UserClaim", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -149,7 +149,8 @@ namespace Common.DataAccess.EFCore.Migrations
                     b.Property<DateTime>("ModifyDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -161,7 +162,7 @@ namespace Common.DataAccess.EFCore.Migrations
 
             modelBuilder.Entity("Common.Entities.UserPhoto", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDate")
@@ -184,10 +185,10 @@ namespace Common.DataAccess.EFCore.Migrations
 
             modelBuilder.Entity("Common.Entities.UserRole", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("RoleId")
+                    b.Property<string>("RoleId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("UserId", "RoleId");

@@ -1,4 +1,6 @@
-﻿using Common.DataAccess.EFCore;
+﻿using System;
+using System.Net.Http.Headers;
+using Common.DataAccess.EFCore;
 using Common.DataAccess.EFCore.Repositories;
 using Common.Entities;
 using Common.Services;
@@ -23,6 +25,8 @@ namespace Common.DIContainerCore
             InitServices(services, configuration);
 
             InitRepositories(services, configuration);
+
+            ConfigureOmdb(services, configuration);
         }
 
         private static void InitServices(IServiceCollection services, IConfiguration configuration)
@@ -40,6 +44,18 @@ namespace Common.DIContainerCore
             services.AddTransient<IUserClaimRepository<UserClaim>, UserClaimRepository>();
             services.AddTransient<ISettingsRepository, SettingsRepository>();
             services.AddTransient<IUserPhotoRepository, UserPhotoRepository>();
+        }
+
+        private static void ConfigureOmdb(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient<IMovieService, MovieService>(options =>
+            {
+                options.BaseAddress = new Uri(configuration["TMDB:ApiEndpoint"]);
+                options.Timeout = TimeSpan.FromSeconds(30);
+                options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                options.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", configuration["TMDB:ApiKey"]);
+            });
         }
     }
 }

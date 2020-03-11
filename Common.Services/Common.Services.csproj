@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common.Exceptions\Common.Exceptions.csproj" />
     <ProjectReference Include="..\Common.Services.Infrastructure\Common.Services.Infrastructure.csproj" />
   </ItemGroup>
 

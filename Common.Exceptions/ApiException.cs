@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Common.WebApiCore.Exceptions
+namespace Common.Exceptions
 {
     public class ApiException : Exception
     {
