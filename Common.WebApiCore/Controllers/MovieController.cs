@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Common.Services.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Common.WebApiCore.Controllers
 {
@@ -8,10 +9,13 @@ namespace Common.WebApiCore.Controllers
     public class MovieController : BaseApiController
     {
         private readonly IMovieService _movieService;
+        private readonly ILogger _logger;
 
-        public MovieController(IMovieService movieService)
+        public MovieController(IMovieService movieService,
+                               ILogger logger)
         {
             this._movieService = movieService;
+            this._logger = logger;
         }
 
         [HttpGet("Trending")]
@@ -24,6 +28,7 @@ namespace Common.WebApiCore.Controllers
         [HttpGet("ByTitle")]
         public async Task<IActionResult> GetByTitle(string title)
         {
+            this._logger.Warning(title);
             var movies = await this._movieService.GetByTitle(title);
             return Ok(movies);
         }
