@@ -20,6 +20,9 @@ namespace Common.DIContainerCore
             services.AddDbContextPool<DataContext>(options => options
                 .UseMySql(connectionString));
 
+            services.AddStackExchangeRedisCache(options => { options.Configuration = configuration["Redis:Connection"]; });
+            
+
             services.AddScoped<IDataBaseInitializer, DataBaseInitializer>();
 
             InitServices(services, configuration);

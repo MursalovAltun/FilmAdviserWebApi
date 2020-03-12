@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Common.DTO.TmdbDTO;
+using Common.DTO;
 
 namespace Common.Services.Infrastructure.Services
 {

@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Common.DTO;
 using Common.DTO.AuthDTO;
+using Common.Exceptions;
 using Common.Services.Infrastructure.Services;
 using Common.WebApiCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -41,8 +43,7 @@ namespace Common.WebApiCore.Controllers
         [Route("login")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(Token), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login(LoginDTO loginDto)
         {
             var result = await this.authService.Login(loginDto);
@@ -54,10 +55,10 @@ namespace Common.WebApiCore.Controllers
 
             if (result.IsModelValid)
             {
-                return Unauthorized();
+                throw new BadRequestException("Email or password is invalid");
             }
 
-            return BadRequest();
+            throw new BadRequestException("Email or password is invalid");
         }
 
         /// <summary>
@@ -82,14 +83,13 @@ namespace Common.WebApiCore.Controllers
         [AllowAnonymous]
         [Route("sign-up")]
         [ProducesResponseType(typeof(Token), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignUp(SignUpDTO signUpDto)
         {
             var user = await _userService.GetByEmail(signUpDto.Email);
             if (user != null)
             {
-                return BadRequest("A user with such an email already exists.");
+                throw new BadRequestException("A user with such an email already exists");
             }
 
             var result = await this.authService.SignUp(signUpDto);
@@ -98,9 +98,9 @@ namespace Common.WebApiCore.Controllers
                 return Ok(new { token = result.Data });
 
             if (result.IsModelValid)
-                return Unauthorized();
+                throw new BadRequestException("A user with such an email already exists");
 
-            return BadRequest();
+            throw new BadRequestException("A user with such an email already exists");
         }
 
         /// <summary>
@@ -112,6 +112,8 @@ namespace Common.WebApiCore.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("request-pass")]
+        [ProducesResponseType(typeof(Token), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RequestPassword(RequestPasswordDTO requestPasswordDto)
         {
             var result = await this.authService.RequestPassword(requestPasswordDto);
@@ -119,7 +121,7 @@ namespace Common.WebApiCore.Controllers
             if (result.Succeeded)
                 return Ok(new { result.Data, Description = "Reset Token should be sent via Email. Token in response - just for testing purpose." });
 
-            return BadRequest();
+            throw new BadRequestException("User is not exists");
         }
 
         /// <summary>
@@ -130,6 +132,8 @@ namespace Common.WebApiCore.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("restore-pass")]
+        [ProducesResponseType(typeof(Token), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RestorePassword(RestorePasswordDTO restorePasswordDto)
         {
             var result = await this.authService.RestorePassword(restorePasswordDto);
@@ -137,7 +141,7 @@ namespace Common.WebApiCore.Controllers
             if (result.Succeeded)
                 return Ok(new { token = result.Data });
 
-            return BadRequest();
+            throw new BadRequestException("Invalid token provided");
         }
 
         /// <summary>
@@ -146,6 +150,7 @@ namespace Common.WebApiCore.Controllers
         /// <returns>200</returns>
         [HttpPost]
         [Route("sign-out")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult SignOut()
         {
             return Ok();
@@ -158,6 +163,8 @@ namespace Common.WebApiCore.Controllers
         /// <returns>New generated access and refresh token</returns>
         [HttpPost]
         [Route("refresh-token")]
+        [ProducesResponseType(typeof(Token), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshToken(RefreshTokenDTO refreshTokenDto)
         {
             var result = await this.authService.RefreshToken(refreshTokenDto);
@@ -165,7 +172,7 @@ namespace Common.WebApiCore.Controllers
             if (result.Succeeded)
                 return Ok(new { token = result.Data });
 
-            return BadRequest();
+            throw new BadRequestException("Invalid refresh token provided");
         }
     }
 }
