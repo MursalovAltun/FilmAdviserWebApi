@@ -5,27 +5,31 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{07A50D50-D396-4430-BAA5-C4603272DD6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WebApiCore", "Common.WebApiCore\Common.WebApiCore.csproj", "{305C1849-1847-4E6E-A740-1543260FBC9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WebApiCore", "src\Common\Common.WebApiCore\Common.WebApiCore.csproj", "{305C1849-1847-4E6E-A740-1543260FBC9E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Services.Infrastructure", "Common.Services.Infrastructure\Common.Services.Infrastructure.csproj", "{93280614-3A7C-412B-BD28-5A0AD56993EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Services.Infrastructure", "src\Common\Common.Services.Infrastructure\Common.Services.Infrastructure.csproj", "{93280614-3A7C-412B-BD28-5A0AD56993EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DIContainerCore", "Common.DIContainerCore\Common.DIContainerCore.csproj", "{9D4446B4-3B8C-4B54-A2FC-DBD5026B36FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DIContainerCore", "src\Common\Common.DIContainerCore\Common.DIContainerCore.csproj", "{9D4446B4-3B8C-4B54-A2FC-DBD5026B36FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DataAccess.EFCore", "Common.DataAccess.EFCore\Common.DataAccess.EFCore.csproj", "{80866453-E5C3-42FA-8CB7-790DA9D9B940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DataAccess.EFCore", "src\Common\Common.DataAccess.EFCore\Common.DataAccess.EFCore.csproj", "{80866453-E5C3-42FA-8CB7-790DA9D9B940}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Entities", "Common.Entities\Common.Entities.csproj", "{10F86CAC-34AF-479B-8116-7D212D564041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Entities", "src\Common\Common.Entities\Common.Entities.csproj", "{10F86CAC-34AF-479B-8116-7D212D564041}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.IdentityManagementCore", "Common.IdentityManagementCore\Common.IdentityManagementCore.csproj", "{ED372A01-D059-4724-9573-893344A8A2AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.IdentityManagementCore", "src\Common\Common.IdentityManagementCore\Common.IdentityManagementCore.csproj", "{ED372A01-D059-4724-9573-893344A8A2AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DTO", "Common.DTO\Common.DTO.csproj", "{032E4A85-14F9-4D99-B8DE-35363899E855}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DTO", "src\Common\Common.DTO\Common.DTO.csproj", "{032E4A85-14F9-4D99-B8DE-35363899E855}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Services", "Common.Services\Common.Services.csproj", "{8FBDF2C0-ADC4-40A3-AEB2-D89B9031BAB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Services", "src\Common\Common.Services\Common.Services.csproj", "{8FBDF2C0-ADC4-40A3-AEB2-D89B9031BAB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{6C0D4AB4-C4DC-4D6C-A8D2-EBD7999E998C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "src\ConsoleApp1\ConsoleApp1.csproj", "{6C0D4AB4-C4DC-4D6C-A8D2-EBD7999E998C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Exceptions", "Common.Exceptions\Common.Exceptions.csproj", "{63FF5E13-5D24-499F-94F0-909C89A03CBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Exceptions", "src\Common\Common.Exceptions\Common.Exceptions.csproj", "{63FF5E13-5D24-499F-94F0-909C89A03CBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Constants", "Common.Constants\Common.Constants.csproj", "{CB79408A-D69C-40ED-91D8-2893C9AFD3B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Constants", "src\Common\Common.Constants\Common.Constants.csproj", "{CB79408A-D69C-40ED-91D8-2893C9AFD3B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2747D5EE-602A-4344-B86A-E274FD70F0CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF517B5F-AF5C-462E-A961-A5B533431884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +86,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{07A50D50-D396-4430-BAA5-C4603272DD6E} = {2747D5EE-602A-4344-B86A-E274FD70F0CF}
 		{305C1849-1847-4E6E-A740-1543260FBC9E} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 		{93280614-3A7C-412B-BD28-5A0AD56993EA} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 		{9D4446B4-3B8C-4B54-A2FC-DBD5026B36FF} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
@@ -90,6 +95,7 @@ Global
 		{ED372A01-D059-4724-9573-893344A8A2AB} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 		{032E4A85-14F9-4D99-B8DE-35363899E855} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 		{8FBDF2C0-ADC4-40A3-AEB2-D89B9031BAB8} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
+		{6C0D4AB4-C4DC-4D6C-A8D2-EBD7999E998C} = {2747D5EE-602A-4344-B86A-E274FD70F0CF}
 		{63FF5E13-5D24-499F-94F0-909C89A03CBA} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 		{CB79408A-D69C-40ED-91D8-2893C9AFD3B0} = {07A50D50-D396-4430-BAA5-C4603272DD6E}
 	EndGlobalSection
