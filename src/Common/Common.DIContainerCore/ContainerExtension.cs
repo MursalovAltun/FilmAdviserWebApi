@@ -20,9 +20,10 @@ namespace Common.DIContainerCore
         {
             services.AddDbContextPool<DataContext>(options =>
             {
-                options.UseMySql(connectionString, connectionOptions =>
+                options.UseNpgsql(connectionString, connectionOptions =>
                     {
-                        connectionOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), new List<int> { 1, 5, 8 });
+                        connectionOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(15),
+                            new List<string> {"1", "0"});
                         connectionOptions.CommandTimeout(50);
                     });
             });

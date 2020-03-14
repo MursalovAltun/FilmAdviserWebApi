@@ -17,12 +17,13 @@ services:
     restart: always
 
   db:
-    image: mysql:latest
+    image: postgres
     environment:
-       MYSQL_ROOT_PASSWORD: rootpassw
-       MYSQL_DATABASE: filmadviser
+       POSTGRES_USER: filmadviseradmin
+       POSTGRES_PASSWORD: filmadviseradminpassw1
+       POSTGRES_DB: filmadviser
     volumes:
-       - /var/lib/mysql
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
     restart: always
    
   redis:
@@ -30,4 +31,4 @@ services:
     restart: always
        
 volumes:
-  db_data:
+  database-data:

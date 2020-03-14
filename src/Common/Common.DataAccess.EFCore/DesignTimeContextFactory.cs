@@ -21,7 +21,7 @@ namespace Common.DataAccess.EFCore
             var connectionString = configuration.GetConnectionString("Default");
 
             var builder = new DbContextOptionsBuilder<DataContext>();
-            builder.UseMySql(connectionString);
+            builder.UseNpgsql(connectionString);
 
             return new DataContext(builder.Options);
         }
