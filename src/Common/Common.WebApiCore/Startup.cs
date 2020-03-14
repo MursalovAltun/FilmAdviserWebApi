@@ -10,13 +10,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Common.WebApiCore
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger _logger;
+
+        public Startup(IConfiguration configuration, ILogger logger)
         {
+            _logger = logger;
             Configuration = configuration;
         }
 
@@ -25,6 +29,7 @@ namespace Common.WebApiCore
         protected void ConfigureDependencies(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("Default");
+            this._logger.Information($"MYSQL CONNECTION STRING - {connectionString}");
             DependenciesConfig.ConfigureDependencies(services, this.Configuration, connectionString);
         }
 
