@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  common.webapicore:
+    image: commonwebapicore:runtime
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    ports:
+       - "8080:80"
+    restart: always
+
+  db:
+    image: mysql:latest
+    environment:
+       MYSQL_ROOT_PASSWORD: rootpassw
+       MYSQL_DATABASE: filmadviser
+    volumes:
+       - /var/lib/mysql
+    restart: always
+   
+  redis:
+    image: redis
+    restart: always
+       
+volumes:
+  db_data:

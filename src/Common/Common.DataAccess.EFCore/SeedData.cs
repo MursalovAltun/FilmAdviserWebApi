@@ -15,8 +15,8 @@ namespace Common.DataAccess.EFCore
 
 
             //Roles
-            sqlCommand.Append("INSERT INTO roles (id, name, creationdate, modifydate) VALUES ('6270ef0a-d4b8-4cbe-9c10-17904670ae5c', 'admin', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6));");
-            sqlCommand.Append("INSERT INTO roles (id, name, creationdate, modifydate) VALUES ('324f4fab-c1ce-4b64-b786-69796a06e907', 'user', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6));");
+            sqlCommand.Append("INSERT INTO Roles (id, name, creationdate, modifydate) VALUES ('6270ef0a-d4b8-4cbe-9c10-17904670ae5c', 'admin', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6));");
+            sqlCommand.Append("INSERT INTO Roles (id, name, creationdate, modifydate) VALUES ('324f4fab-c1ce-4b64-b786-69796a06e907', 'user', UTC_TIMESTAMP(6), UTC_TIMESTAMP(6));");
             sqlCommand.AppendLine();
 
             ////Users

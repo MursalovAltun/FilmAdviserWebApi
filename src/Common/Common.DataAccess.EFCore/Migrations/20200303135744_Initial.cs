@@ -147,7 +147,7 @@ namespace Common.DataAccess.EFCore.Migrations
                 table: "UserRoles",
                 column: "RoleId");
 
-            migrationBuilder.Sql(SeedData.Initial());
+            //migrationBuilder.Sql(SeedData.Initial());
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

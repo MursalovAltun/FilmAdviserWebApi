@@ -5,16 +5,19 @@ using Common.DTO;
 using Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Common.WebApiCore.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;
+        private readonly ILogger _logger;
 
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
         {
             this.next = next;
+            this._logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -35,6 +38,7 @@ namespace Common.WebApiCore.Middlewares
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
+            this._logger.Fatal(exception, "Unhandled exception occured");
             const HttpStatusCode code = HttpStatusCode.InternalServerError;
 
             var result = JsonConvert.SerializeObject(new { error = $"Internal Api Error: {exception.Message}" });
@@ -47,6 +51,7 @@ namespace Common.WebApiCore.Middlewares
 
         private async Task HandleApiExceptionAsync(HttpContext context, ApiException ex)
         {
+            this._logger.Fatal(ex, "Unhandled exception occured");
             var result = JsonConvert.SerializeObject(new ApiExceptionDTO(ex.Message, ex.StatusCode));
 
             context.Response.ContentType = "application/json";
