@@ -18,6 +18,16 @@ namespace Common.DataAccess.EFCore.Configurations.System
         {
             builder.ToTable(this.TableName);
             builder.HasKey(obj => obj.Id);
+
+            builder.Property(obj => obj.CreationDate)
+                .HasColumnType("timestamp without time zone")
+                .HasDefaultValueSql("now() at time zone 'utc'")
+                .ValueGeneratedOnAdd();
+
+            builder.Property(x => x.ModifyDate)
+                .HasColumnType("timestamp without time zone")
+                .HasDefaultValueSql("now() at time zone 'utc'")
+                .ValueGeneratedOnAddOrUpdate();
         }
     }
 }

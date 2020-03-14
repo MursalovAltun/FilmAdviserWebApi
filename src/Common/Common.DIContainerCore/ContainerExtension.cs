@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Common.DataAccess.EFCore;
 using Common.DataAccess.EFCore.Repositories;
@@ -18,15 +17,7 @@ namespace Common.DIContainerCore
     {
         public static void Initialize(IServiceCollection services, IConfiguration configuration, string connectionString = null)
         {
-            services.AddDbContextPool<DataContext>(options =>
-            {
-                options.UseNpgsql(connectionString, connectionOptions =>
-                    {
-                        connectionOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(15),
-                            new List<string> {"1", "0"});
-                        connectionOptions.CommandTimeout(50);
-                    });
-            });
+            services.AddDbContextPool<DataContext>(options => options.UseNpgsql(connectionString));
 
             services.AddStackExchangeRedisCache(options => { options.Configuration = configuration["Redis:Connection"]; });
 

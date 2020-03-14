@@ -7,5 +7,7 @@
         public string ConfirmPassword { get; set; }
 
         public string TimeZoneId { get; set; }
+
+        public string NormalizedFullName => this.FullName.Normalize().ToUpperInvariant();
     }
 }

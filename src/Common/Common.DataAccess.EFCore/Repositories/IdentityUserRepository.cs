@@ -52,7 +52,7 @@ namespace Common.DataAccess.EFCore.Repositories
             var context = GetContext(session);
 
             return await context.Set<User>()
-                .Where(obj => obj.UserName == username)
+                .Where(obj => obj.NormalizedUserName == username)
                 .Include(u => u.Claims)
                 .Include(u => u.UserRoles)
                     .ThenInclude(x => x.Role)
@@ -67,7 +67,7 @@ namespace Common.DataAccess.EFCore.Repositories
                 .Include(u => u.UserRoles)
                     .ThenInclude(x => x.Role)
                 .Include(u => u.Claims)
-                .Where(obj => obj.Email == email)
+                .Where(obj => obj.NormalizedEmail == email)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }

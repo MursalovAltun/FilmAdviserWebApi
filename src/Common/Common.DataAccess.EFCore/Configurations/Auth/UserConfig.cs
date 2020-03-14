@@ -16,8 +16,10 @@ namespace Common.DataAccess.EFCore.Configurations.Auth
             builder.Property(obj => obj.FirstName);
             builder.Property(obj => obj.LastName);
             builder.Property(obj => obj.UserName).IsRequired();
+            builder.HasIndex(obj => obj.NormalizedUserName);
             builder.Property(obj => obj.Password);
             builder.Property(obj => obj.Email).IsRequired();
+            builder.HasIndex(obj => obj.NormalizedEmail).IsUnique();
             builder.Property(obj => obj.Age);
 
             builder.Property(obj => obj.AddressCity).HasColumnName("City");

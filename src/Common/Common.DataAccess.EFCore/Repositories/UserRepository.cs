@@ -56,11 +56,11 @@ namespace Common.DataAccess.EFCore.Repositories
                    .FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetByUserName(string username, ContextSession session)
+        public async Task<User> GetByUserName(string normalizedUsername, ContextSession session)
         {
             var context = GetContext(session);
             return await context.Set<User>()
-                    .Where(obj => obj.UserName == username)
+                    .Where(obj => obj.NormalizedUserName == normalizedUsername)
                     .Include(u => u.Settings)
                     .Include(u => u.UserRoles)
                         .ThenInclude(x => x.Role)
@@ -68,11 +68,11 @@ namespace Common.DataAccess.EFCore.Repositories
                     .FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetByEmail(string email, ContextSession session)
+        public async Task<User> GetByEmail(string normalizedEmail, ContextSession session)
         {
             var context = GetContext(session);
             return await context.Set<User>()
-                    .Where(obj => obj.Email == email)
+                    .Where(obj => obj.NormalizedEmail == normalizedEmail)
                     .Include(u => u.Settings)
                     .Include(u => u.UserRoles)
                         .ThenInclude(x => x.Role)

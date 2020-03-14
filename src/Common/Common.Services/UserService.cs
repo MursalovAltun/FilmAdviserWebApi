@@ -56,13 +56,13 @@ namespace Common.Services
 
         public async Task<UserDTO> GetByName(string username)
         {
-            var user = await userRepository.GetByUserName(username, Session);
+            var user = await userRepository.GetByUserName(username.Normalize().ToUpperInvariant(), Session);
             return this._mapper.Map<UserDTO>(user);
         }
 
         public async Task<UserDTO> GetByEmail(string email)
         {
-            var user = await userRepository.GetByEmail(email, Session);
+            var user = await userRepository.GetByEmail(email.Normalize().ToUpperInvariant(), Session);
             return this._mapper.Map<UserDTO>(user);
         }
     }

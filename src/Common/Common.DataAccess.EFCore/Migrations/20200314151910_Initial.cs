@@ -12,8 +12,8 @@ namespace Common.DataAccess.EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    ModifyDate = table.Column<DateTime>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -27,14 +27,16 @@ namespace Common.DataAccess.EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    ModifyDate = table.Column<DateTime>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
                     IsDelete = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(nullable: false),
+                    NormalizedUserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: false),
+                    NormalizedEmail = table.Column<string>(nullable: true),
                     Age = table.Column<int>(nullable: true),
                     Street = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
@@ -53,8 +55,8 @@ namespace Common.DataAccess.EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    ModifyDate = table.Column<DateTime>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
                     IsDelete = table.Column<bool>(nullable: false),
                     ThemeName = table.Column<string>(nullable: false)
                 },
@@ -74,8 +76,8 @@ namespace Common.DataAccess.EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    ModifyDate = table.Column<DateTime>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
                     IsDelete = table.Column<bool>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: false),
@@ -97,8 +99,8 @@ namespace Common.DataAccess.EFCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    ModifyDate = table.Column<DateTime>(nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
                     IsDelete = table.Column<bool>(nullable: false),
                     Image = table.Column<byte[]>(nullable: false)
                 },
@@ -147,7 +149,16 @@ namespace Common.DataAccess.EFCore.Migrations
                 table: "UserRoles",
                 column: "RoleId");
 
-            //migrationBuilder.Sql(SeedData.Initial());
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_NormalizedEmail",
+                table: "Users",
+                column: "NormalizedEmail",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_NormalizedUserName",
+                table: "Users",
+                column: "NormalizedUserName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
