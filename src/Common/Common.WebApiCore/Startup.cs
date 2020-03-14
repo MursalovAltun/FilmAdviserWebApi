@@ -16,11 +16,8 @@ namespace Common.WebApiCore
 {
     public class Startup
     {
-        private readonly ILogger _logger;
-
-        public Startup(IConfiguration configuration, ILogger logger)
+        public Startup(IConfiguration configuration)
         {
-            _logger = logger;
             Configuration = configuration;
         }
 
@@ -29,7 +26,7 @@ namespace Common.WebApiCore
         protected void ConfigureDependencies(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("Default");
-            this._logger.Information($"MYSQL CONNECTION STRING - {connectionString}");
+            Log.Information($"MYSQL CONNECTION STRING - {connectionString}");
             DependenciesConfig.ConfigureDependencies(services, this.Configuration, connectionString);
         }
 
