@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Common.DataAccess.EFCore;
 using Common.DataAccess.EFCore.Repositories;
@@ -17,11 +18,17 @@ namespace Common.DIContainerCore
     {
         public static void Initialize(IServiceCollection services, IConfiguration configuration, string connectionString = null)
         {
-            services.AddDbContextPool<DataContext>(options => options
-                .UseMySql(connectionString));
+            services.AddDbContextPool<DataContext>(options =>
+            {
+                options.UseMySql(connectionString, connectionOptions =>
+                    {
+                        connectionOptions.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), new List<int> { 1, 5, 8 });
+                        connectionOptions.CommandTimeout(50);
+                    });
+            });
 
             services.AddStackExchangeRedisCache(options => { options.Configuration = configuration["Redis:Connection"]; });
-            
+
 
             services.AddScoped<IDataBaseInitializer, DataBaseInitializer>();
 
