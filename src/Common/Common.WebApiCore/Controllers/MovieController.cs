@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Common.DTO;
 using Common.Exceptions;
 using Common.Services.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -14,16 +15,10 @@ namespace Common.WebApiCore.Controllers
     public class MovieController : BaseApiController
     {
         private readonly IMovieService _movieService;
-        private readonly IDistributedCache _distributedCache;
-        private readonly ILogger _logger;
 
-        public MovieController(IMovieService movieService,
-                               IDistributedCache distributedCache,
-                               ILogger logger)
+        public MovieController(IMovieService movieService)
         {
             this._movieService = movieService;
-            this._distributedCache = distributedCache;
-            this._logger = logger;
         }
 
         /// <summary>
@@ -34,6 +29,7 @@ namespace Common.WebApiCore.Controllers
         [HttpGet("Trending")]
         [ProducesResponseType(typeof(IEnumerable<MovieDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetTrending(string timeWindow)
         {
             var isValidTimeWindow = timeWindow switch
@@ -60,6 +56,7 @@ namespace Common.WebApiCore.Controllers
         [HttpGet("ByTitle")]
         [ProducesResponseType(typeof(IEnumerable<MovieDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetByTitle(string title)
         {
             if (string.IsNullOrEmpty(title))

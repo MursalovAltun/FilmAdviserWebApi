@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Reflection;
 using AutoMapper;
+using Common.Exceptions;
 using Common.Services.Infrastructure;
 using Common.WebApiCore.Middlewares;
 using Common.WebApiCore.Setup;
@@ -48,6 +50,17 @@ namespace Common.WebApiCore
                 options.LocalizationEnabled = false;
                 options.RegisterValidatorsFromAssembly(Assembly.Load("Common.DTO"));
             })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = c =>
+                {
+                    var errors = string.Join('\n', c.ModelState.Values.Where(v => v.Errors.Count > 0)
+                        .SelectMany(v => v.Errors)
+                        .Select(v => v.ErrorMessage));
+
+                    throw new BadRequestException(errors);
+                };
+            })
             .AddNewtonsoftJson();
         }
 
@@ -66,7 +79,7 @@ namespace Common.WebApiCore
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseConfiguredSwagger();
 
             app.UseCors("CorsPolicy");
