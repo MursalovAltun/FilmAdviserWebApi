@@ -20,7 +20,7 @@ namespace Common.WebApiCore.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("{id:Guid}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -57,7 +57,7 @@ namespace Common.WebApiCore.Controllers
         }
 
         [HttpPut]
-        [Route("{id:int}")]
+        [Route("{id:Guid}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Edit(Guid id, UserDTO userDto)
         {
@@ -90,7 +90,7 @@ namespace Common.WebApiCore.Controllers
         }
 
         [HttpDelete]
-        [Route("{id:int}")]
+        [Route("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await userService.Delete(id);
@@ -98,7 +98,7 @@ namespace Common.WebApiCore.Controllers
         }
 
         [HttpGet]
-        [Route("{userId:int}/photo")]
+        [Route("{userId:Guid}/photo")]
         public async Task<IActionResult> UserPhoto(Guid userId, string token)
         {
             var user = jwtManager.GetPrincipal(token);

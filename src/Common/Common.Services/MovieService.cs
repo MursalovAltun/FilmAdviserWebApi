@@ -12,7 +12,7 @@ using Common.Services.Infrastructure.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using MovieDTO = Common.DTO.MovieDTO;
+using Newtonsoft.Json.Serialization;
 
 namespace Common.Services
 {
@@ -38,8 +38,14 @@ namespace Common.Services
 
             if (response.IsSuccessStatusCode)
             {
-                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<DTO.TmdbDTO.MovieDTO>>(responseBody);
-                return this._mapper.Map<IEnumerable<MovieDTO>>(result.Results);
+                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<MovieDTO>>(responseBody, new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    }
+                });
+                return result.Results;
             }
 
             throw new BadRequestException(response.ReasonPhrase);
@@ -70,8 +76,7 @@ namespace Common.Services
             if (cachedTrending != null)
             {
                 var cachedTrendingJson = Encoding.UTF8.GetString(cachedTrending);
-                var cachedTrendingMovies = JsonConvert.DeserializeObject<IEnumerable<DTO.TmdbDTO.MovieDTO>>(cachedTrendingJson);
-                return this.GetMoviesWithGenres(cachedTrendingMovies, await this.GetAllGenres("movie"));
+                return JsonConvert.DeserializeObject<IEnumerable<MovieDTO>>(cachedTrendingJson);
             }
 
             var response = await this._client.GetAsync($"3/trending/{mediaType}/{timeWindow}");
@@ -79,10 +84,36 @@ namespace Common.Services
 
             if (response.IsSuccessStatusCode)
             {
-                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<DTO.TmdbDTO.MovieDTO>>(responseBody);
+                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<MovieDTO>>(responseBody, new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    }
+                });
                 var cachedJson = JsonConvert.SerializeObject(result.Results);
                 await this._distributedCache.SetAsync(cacheScheme, Encoding.UTF8.GetBytes(cachedJson), cacheOptions);
-                return this.GetMoviesWithGenres(result.Results, await this.GetAllGenres("movie"));
+                return result.Results;
+            }
+
+            throw new BadRequestException(response.ReasonPhrase);
+        }
+
+        public async Task<MovieDTO> GetMovieDetails(int id)
+        {
+            var response = await this._client.GetAsync($"3/movie/{id}");
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<MovieDTO>(responseBody, new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                    }
+                });
+                return this._mapper.Map<MovieDTO>(result);
             }
 
             throw new BadRequestException(response.ReasonPhrase);
@@ -115,24 +146,6 @@ namespace Common.Services
             }
 
             throw new BadRequestException(response.ReasonPhrase);
-        }
-
-        private IEnumerable<MovieDTO> GetMoviesWithGenres(IEnumerable<DTO.TmdbDTO.MovieDTO> tmdbMovies, IEnumerable<GenreDTO> genres)
-        {
-            var movies = this._mapper.Map<IEnumerable<MovieDTO>>(tmdbMovies).ToList();
-            for (var i = 0; i < tmdbMovies.Count(); i++)
-            {
-                var movieGenres = new List<GenreDTO>();
-
-                foreach (var movieDtoGenreId in tmdbMovies.ElementAt(i).GenreIds)
-                {
-                    movieGenres.Add(genres.FirstOrDefault(x => x.Id == movieDtoGenreId));
-                }
-
-                movies.ElementAt(i).Genres = movieGenres;
-            }
-
-            return movies;
         }
     }
 }

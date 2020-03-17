@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Common.DTO;
+using Common.DTO.TmdbDTO;
 
 namespace Common.Services.Infrastructure.Services
 {
@@ -24,5 +24,7 @@ namespace Common.Services.Infrastructure.Services
         /// </param>
         /// <returns>A collection of Movie DTO</returns>
         Task<IEnumerable<MovieDTO>> GetTrending(string mediaType, string timeWindow);
+
+        Task<MovieDTO> GetMovieDetails(int id);
     }
 }

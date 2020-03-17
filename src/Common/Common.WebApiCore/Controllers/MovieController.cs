@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.DTO;
+using Common.DTO.TmdbDTO;
 using Common.Exceptions;
 using Common.Services.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-using Serilog;
 
 namespace Common.WebApiCore.Controllers
 {
+    /// <summary>
+    /// Controller with endpoints that allows to manage movies
+    /// </summary>
     [Route("Movie")]
     public class MovieController : BaseApiController
     {
@@ -44,7 +46,7 @@ namespace Common.WebApiCore.Controllers
                 throw new BadRequestException("Invalid timewindow value it must be day or week");
             }
 
-            var movies = await this._movieService.GetTrending("all", timeWindow);
+            var movies = await this._movieService.GetTrending("movie", timeWindow);
             return Ok(movies);
         }
 
@@ -66,6 +68,24 @@ namespace Common.WebApiCore.Controllers
 
             var movies = await this._movieService.GetByTitle(title);
             return Ok(movies);
+        }
+
+        /// <summary>
+        /// Gets movie details by movie id
+        /// </summary>
+        /// <param name="id">Movie id</param>
+        /// <returns>Movie DTO</returns>
+        [HttpGet("{id:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new BadRequestException("Invalid movie id");
+            }
+
+            var movie = await this._movieService.GetMovieDetails(id);
+            return Ok(movie);
         }
     }
 }
