@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Common.Constants;
+using Common.DTO;
 using Common.DTO.TmdbDTO;
 using Common.Exceptions;
 using Common.Services.Infrastructure.Services;
@@ -38,14 +39,8 @@ namespace Common.Services
 
             if (response.IsSuccessStatusCode)
             {
-                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<MovieDTO>>(responseBody, new JsonSerializerSettings
-                {
-                    ContractResolver = new DefaultContractResolver
-                    {
-                        NamingStrategy = new SnakeCaseNamingStrategy()
-                    }
-                });
-                return result.Results;
+                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<MovieResponseDTO>>(responseBody);
+                return this._mapper.Map<IEnumerable<MovieDTO>>(result.Results);
             }
 
             throw new BadRequestException(response.ReasonPhrase);
@@ -76,7 +71,8 @@ namespace Common.Services
             if (cachedTrending != null)
             {
                 var cachedTrendingJson = Encoding.UTF8.GetString(cachedTrending);
-                return JsonConvert.DeserializeObject<IEnumerable<MovieDTO>>(cachedTrendingJson);
+                var movies = JsonConvert.DeserializeObject<IEnumerable<MovieResponseDTO>>(cachedTrendingJson);
+                return this._mapper.Map<IEnumerable<MovieDTO>>(movies);
             }
 
             var response = await this._client.GetAsync($"3/trending/{mediaType}/{timeWindow}");
@@ -84,35 +80,28 @@ namespace Common.Services
 
             if (response.IsSuccessStatusCode)
             {
-                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<MovieDTO>>(responseBody, new JsonSerializerSettings
-                {
-                    ContractResolver = new DefaultContractResolver
-                    {
-                        NamingStrategy = new SnakeCaseNamingStrategy()
-                    }
-                });
+                var result = JsonConvert.DeserializeObject<TmdbResponseDTO<MovieResponseDTO>>(responseBody);
                 var cachedJson = JsonConvert.SerializeObject(result.Results);
                 await this._distributedCache.SetAsync(cacheScheme, Encoding.UTF8.GetBytes(cachedJson), cacheOptions);
-                return result.Results;
+                return this._mapper.Map<IEnumerable<MovieDTO>>(result.Results);
             }
 
             throw new BadRequestException(response.ReasonPhrase);
         }
 
-        public async Task<MovieDTO> GetMovieDetails(int id)
+        public async Task<MovieDTO> GetMovieDetails(int id, string append = "")
         {
-            var response = await this._client.GetAsync($"3/movie/{id}");
+            var url = $"3/movie/{id}";
+            if (!string.IsNullOrWhiteSpace(append))
+            {
+                url += $"?append_to_response={append}";
+            }
+            var response = await this._client.GetAsync(url);
             var responseBody = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
             {
-                var result = JsonConvert.DeserializeObject<MovieDTO>(responseBody, new JsonSerializerSettings
-                {
-                    ContractResolver = new DefaultContractResolver
-                    {
-                        NamingStrategy = new SnakeCaseNamingStrategy()
-                    }
-                });
+                var result = JsonConvert.DeserializeObject<MovieResponseDTO>(responseBody);
                 return this._mapper.Map<MovieDTO>(result);
             }
 

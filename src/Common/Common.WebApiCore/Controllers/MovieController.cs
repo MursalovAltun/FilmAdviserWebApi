@@ -74,17 +74,23 @@ namespace Common.WebApiCore.Controllers
         /// Gets movie details by movie id
         /// </summary>
         /// <param name="id">Movie id</param>
+        /// <param name="append">
+        /// Additional optional parameter that appends additional data such as: videos, images.
+        /// For example: append=videos,images
+        /// </param>
         /// <returns>Movie DTO</returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(MovieDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDTO), StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id, string append = "")
         {
             if (id <= 0)
             {
                 throw new BadRequestException("Invalid movie id");
             }
 
-            var movie = await this._movieService.GetMovieDetails(id);
+            var movie = await this._movieService.GetMovieDetails(id, append);
             return Ok(movie);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Common.DTO.TmdbDTO;
 
-namespace Common.DTO.TmdbDTO
+namespace Common.DTO
 {
     public class MovieDTO
     {
@@ -15,8 +16,6 @@ namespace Common.DTO.TmdbDTO
         public int Id { get; set; }
 
         public string OriginalTitle { get; set; }
-
-        public string OriginalLanguage { get; set; }
 
         public string Title { get; set; }
 
@@ -58,12 +57,12 @@ namespace Common.DTO.TmdbDTO
         /// <summary>
         /// Will be returned only in movie details request
         /// </summary>
-        public IEnumerable<LanguageDTO> SpokenLanguages { get; set; }
+        public IEnumerable<string> Languages { get; set; }
 
         /// <summary>
         /// Will be returned only in movie details request
         /// </summary>
-        public IEnumerable<CountryDTO> ProductionCountries { get; set; }
+        public IEnumerable<string> ProductionCountries { get; set; }
 
         /// <summary>
         /// Will be returned only in movie details request
@@ -73,6 +72,8 @@ namespace Common.DTO.TmdbDTO
         /// <summary>
         /// Will be returned only in movie details request
         /// </summary>
-        public IEnumerable<GenreDTO> Genres { get; set; }
+        public IEnumerable<string> Genres { get; set; }
+
+        public IEnumerable<VideoDTO> Videos { get; set; }
     }
 }
